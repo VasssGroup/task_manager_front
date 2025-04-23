@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String
+  password  String
+  isActive  Boolean    @default(false)
+  code      String
+  tokens    Token[]
+  cDate     DateTime   @default(now())
+}
+
+model Token {
+  id            Int      @id @default(autoincrement())
+  refreshToken  String
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])  
+
+  @@index([userId])
+}
+
+model Texts {
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
+  text          String
+}
+
+model Structures {
+  id            Int       @id @default(autoincrement())
+  name          String    @unique
+  path          String
+  json          Json
+  udate         DateTime  
+  cdate         DateTime  @default(now())
+}
+
+model Routes {
+  id             Int       @id @default(autoincrement())
+  name           String    @unique
+  json           Json
+  udate          DateTime  
+  cdate          DateTime  @default(now())
+}
