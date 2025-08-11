@@ -27,6 +27,84 @@ export const mapStructures: StructuresMapType = {
         className: 'grow-0 h-60 p-5 m-0 bg-gray-800 text-gray-300',
         children: 'BottomArea'
     },
+    LIST: {
+        tag: 'div',
+        children: [
+            {
+                tag: 'h1',
+                children: 'Tset Live cycle actions'
+            },
+            {
+                tag: 'div',
+                actions: [
+                    {
+                        eventHandler: 'onMount',                        
+                        executable: [
+                            {
+                                actionName: 'CUSTOM_FUNCTION',
+                                body: 'action-onMount',
+                                stateConfig: {
+                                    defaultState: {
+                                        data: null,
+                                        structure: null
+                                    },
+                                    stateItems: [
+                                        {
+                                            name: 'data',                                            
+                                            value: 'res.data'
+                                        },
+                                        {
+                                            name: 'structure',                                            
+                                            value: 'res.otherData'
+                                        }
+                                    ],
+                                    type: 'create',
+                                    depsItems: [ 'data' ]
+                                },                                               
+                                params: {
+                                    context: 'ctx',
+                                    stateConfig: 'cfg',
+                                    createState: 'upState'
+                                }
+                            }
+                        ]
+                    }
+                ],
+                children: [
+                    {
+                        tag: '©Collection',
+                        items: 'nameParam....'
+                    }
+                ]                
+            },
+            {
+                tag: 'div',
+                className: 'p-10 m-0 bg-green-800 text-green-200',
+                actions: [
+                    {
+                        eventHandler: 'onMount',
+                        executable: [
+                            {
+                                actionName: 'CUSTOM_FUNCTION',
+                                body: 'action-update-from-store',
+                                stateConfig: {
+                                    type: 'readStore',
+                                    stateItems: [
+                                        {
+                                            name: 'children',                                            
+                                            value: 'data'
+                                        }
+                                    ]
+                                },
+                                params: {}
+                            }
+                        ]
+                    }
+                ],
+                children: '[Output data from store]'
+            }
+        ]
+    },
     HOME_PAGE: {
         tag: 'section',
         className: 'grow-1',
@@ -173,6 +251,17 @@ export const mapStructures: StructuresMapType = {
                             {
                                 tag: 'form',
                                 className: 'flex flex-col',
+                                actions: [
+                                    {
+                                        eventHandler: 'action',
+                                        executable: [
+                                            {
+                                                actionName: 'CUSTOM_FUNCTION',
+                                                body: 'action-N01'
+                                            }
+                                        ]                                    
+                                    }
+                                ],
                                 children:[
                                     {
                                         tag: 'h3',
@@ -184,16 +273,21 @@ export const mapStructures: StructuresMapType = {
                                         className: 'border-solid border-2 outline-0 border-yellow-700 m-3',
                                         name: 'name',
                                         type: 'text',
-                                        placeholder: 'Имя routePack',
-                                        required: true
+                                        placeholder: 'Имя routePack'
+                                    },
+                                    {
+                                        tag: 'input',              
+                                        className: 'border-solid border-2 outline-0 border-yellow-700 m-3',
+                                        name: 'name2',
+                                        type: 'text',
+                                        placeholder: 'Имя routePack2'
                                     },
                                     {
                                         tag: 'textarea',              
                                         className: 'border-solid border-2 outline-0 border-yellow-700 m-3',
                                         name: 'json',
                                         placeholder: 'Структура в формате JSON',
-                                        defaultValue: '{}',
-                                        required: true
+                                        defaultValue: '{}'
                                     },
                                     {
                                         tag: 'div',
@@ -207,6 +301,35 @@ export const mapStructures: StructuresMapType = {
                                         ]
                                     }                                        
                                 ],
+                            },
+                            {
+                                tag: 'button',
+                                actions: [
+                                    {
+                                        eventHandler: 'onClick',
+                                        executable: [
+                                            {
+                                                actionName: 'CUSTOM_FUNCTION',
+                                                body: 'action-N01',                                                
+                                                params: {
+                                                    eventVar: 'e'
+                                                },
+                                                chain: 'chain',
+                                                order: 0
+                                            },
+                                            {
+                                                actionName: 'CUSTOM_FUNCTION',
+                                                body: 'action-R18',                                                
+                                                params: {
+                                                    prevResult: 'prev'
+                                                },
+                                                chain: 'chain',
+                                                order: 1
+                                            }                                            
+                                        ]
+                                    }
+                                ],
+                                children: 'CustomFunction'
                             }
                         ]
                     },

@@ -1,5 +1,8 @@
 import { FC, ReactNode, JSX, HTMLAttributes } from "react";
 
+export type ChainResultType = any;
+export type ArgsType = any[];
+
 export type WithChildrenType = Readonly<{
     children: ReactNode;
 }>;
@@ -15,10 +18,12 @@ interface TagProps<T> extends HTMLAttributes<T> {
     children?: ReactNode;
 }
 
+export type JSXType<P = any> = (props: P) => JSX.Element
+
 export type ElementType<T = HTMLElement> = FC<TagProps<T>>;
 
 //type HTMLAllElements = HTMLElement | HTMLDivElement | HTMLAnchorElement | HTMLQuoteElement | HTMLLabelElement | HTMLFormElement | HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement | HTMLOptionElement;
-export type MapSJSXType = MapType<(props: any) => JSX.Element>;
+export type MapSJSXType<T = any> = MapType<JSXType<T>>;
 
 export type RoutesType = MapSRNType | null;
 export type SementsType = StringAndListStringType;
@@ -40,22 +45,31 @@ export type ActionParamsType = {
     [key: string]: SimpleObjectType;    
 };
 
-export type AnyFunction = (...props: any) => void | Promise<void>;
+export type AnyFunction<R = void, P = any> = (...props: P[]) => R | Promise<R>;
 
-export type ExecutableType = {
+export type ExecutableItemType = {
     actionName: string;  
     params?: ActionParamsType;
     body?: string;
+    async?: boolean;
+    chain?: string;
+    order?: number;
+    stateConfig?: any;
     //func: (...props: any) => void | Promise<void>;
 };
 
+export type ExecutableType = ExecutableItemType[];
+
 export type ActionType = {
     eventHandler: string;
-    executable: ExecutableType[];       
+    executable: ExecutableType;   
 }
 
 export type MapActionType = MapType<AnyFunction>;
-export type DataCortegeType = MapType<SimpleObjectType>;
+export type DataCortegeType = MapType<SimpleObjectType> & {
+    url: string;
+    method?: string;
+};
 
 export type ElListType = ELType[];
 
@@ -92,3 +106,26 @@ export type PartComponentProps = {
     structures: StructureType;
 }
 
+type FunctionItemType = {
+    func: Function,
+    hasAsync?: boolean;
+};
+
+type FunctionsType = Function[];
+
+export type ListFunctionsType = FunctionItemType[];
+
+export type ChainsMap = MapType<FunctionsType>;
+
+export type ReasultProcessingExecutableType = {
+    funcs: ListFunctionsType;
+    chains?: ChainsMap;
+    stateType?: string;
+    stateItems?: any;
+}
+
+export type BuilderElementProps = {
+    structure: ELType;
+};
+
+export type StateType = { [key: string]: any };

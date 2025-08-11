@@ -1,6 +1,7 @@
 import type { MapSJSXType } from '@/app/types';
 import * as TAGS from './tags';
 import { Menu } from '@/components/shared/Menu';
+import { Collection } from '@/components/shared/Collection';
 
 function createMapElements() {
     const mapElements: MapSJSXType = {};
@@ -14,5 +15,6 @@ function createMapElements() {
 export const mapElements = createMapElements();
 
 export const mapComponents: MapSJSXType = {
-    Menu
+    Menu,
+    Collection
 };

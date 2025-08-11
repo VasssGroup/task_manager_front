@@ -164,7 +164,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\W\\Web\\vasss.ru\\NodeJS\\getHost\\TaskManager\\frontend\\src\\generated\\prisma",
+      "value": "D:\\ud\\Vasss\\W\\WEB\\CMS\\frontend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -178,7 +178,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\W\\Web\\vasss.ru\\NodeJS\\getHost\\TaskManager\\frontend\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\ud\\Vasss\\W\\WEB\\CMS\\frontend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

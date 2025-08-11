@@ -6,7 +6,6 @@ import { SessionProvider } from 'next-auth/react';
 import type {
     WithChildrenType, RoutePackType, StructuresMapType,
     StringAndListStringType, StructureType, MapSRNType,
-    RouteStructurePackValueType
 } from '@/app/types';
 import { segments2Path } from '@/helpers';
 import { RootStoreContext, rootStore } from '@/stores/rootStoreContext';

@@ -1,4 +1,4 @@
-import type { MapActionType, DataCortegeType } from '@/app/types';
+import type { MapActionType, DataCortegeType, MapType } from '@/app/types';
 import { getDeepParam } from '@/helpers';
 
 export const mapAction: MapActionType = {
@@ -8,7 +8,7 @@ export const mapAction: MapActionType = {
                 throw new Error('Отсутствует обязательный параметр "url"');
             }
             const { url, method = 'POST', ...otherParameters } = dataCortege;
-            const params: Record<string, FormDataEntryValue> = {};
+            const params: MapType<FormDataEntryValue> = {};
             for (const [key, value] of formData.entries()) {
                 params[key] = value;
             }
@@ -16,15 +16,13 @@ export const mapAction: MapActionType = {
                 params[key] = `${value}`;
             }
             console.log('onFormAction  [onAction] Run', { url, method, params });
+            const body = method === 'POST' || method === 'PUT' ? JSON.stringify(params) : undefined;
 
-            const response = await fetch(url.toString(), {
-                method: method.toString(),
-                body: JSON.stringify(params)
-            });
+            const response = await fetch(url, { method, body });
             const result = await response.json();
             console.log('onFormAction  [onAction] Ready', { result, response });
         } catch (error) {
-
+            console.error('♠ handleSendFormAction [ERROR] ♠:', { error });
         }
     },
     handleReciveAndPut: async (e: Event, dataCortege?: DataCortegeType) => {
@@ -35,16 +33,15 @@ export const mapAction: MapActionType = {
             }
             const { url, method = 'GET', putList, ...otherParameters } = dataCortege;
 
-            const params: Record<string, FormDataEntryValue> = {};
+            const params: MapType = {};
             for (const [key, value] of Object.entries(otherParameters)) {
-                params[key] = `${value}`;
+                params[key] = value;
             }
             console.log('♦► handleReciveAndPut [params] ♦♦►', { params });
 
-            const response = await fetch(url.toString(), {
-                method: method.toString(),
-                body: method === 'POST' || method === 'PUT' ? JSON.stringify(params) : undefined
-            });
+            const body = method === 'POST' || method === 'PUT' ? JSON.stringify(params) : undefined;
+
+            const response = await fetch(url, { method, body });
             console.log('♦► handleReciveAndPut [response] ♦♦►', { response });
             const data = await response.json();
             console.log('♦► handleReciveAndPut [data] ♦♦►:', { data });
@@ -61,21 +58,35 @@ export const mapAction: MapActionType = {
                     // Получить свойство
                     const propData = getDeepParam(data, arFrom);
 
-                    // Далее найти по селектору элемент
+                    // Найти по селектору элемент
                     const element = document.querySelector(to);
-                    element[property] = typeof propData === 'object' ? JSON.stringify(propData) : propData;
+                    if (!element) return;
+                    element[property] = (typeof propData === 'object') ? JSON.stringify(propData) : `${propData}`;
                 });
             }
-
-        } catch {
-
+        } catch (error) {
+            console.error('♠ handleReciveAndPut [ERROR] ♠:', { error });
         }
     },
     handleSendData: async (e: Event, dataCortege?: DataCortegeType) => {
         try {
-            
-        } catch {
+            if (!dataCortege?.url) {
+                throw new Error('Отсутствует обязательный параметр "url"');
+            }
+            const { url, method = 'POST', ...otherParameters } = dataCortege;
+            const params: MapType = {};
+            for (const [key, value] of Object.entries(otherParameters)) {
+                params[key] = value;
+            }
+            console.log('♦► handleSendData  [params] ♦♦►', { url, method, params });
 
+            const body = method === 'POST' || method === 'PUT' ? JSON.stringify(params) : undefined;
+
+            const response = await fetch(url, { method, body });
+            const result = await response.json();
+            console.log('♦► handleSendData  [response] ♦♦►', { result, response });
+        } catch (error) {
+            console.error('♠ handleSendData [ERROR] ♠:', { error });
         }
     }
 }

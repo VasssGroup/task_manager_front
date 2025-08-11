@@ -1,17 +1,14 @@
-import type { ELType } from '@/app/types';
+import type { BuilderElementProps } from '@/app/types';
 import { getKeyFromStructure } from '@/helpers';
+import { SIC } from '@/constants';
 import { mapElements } from '../mapElement';
 import ClientBuilderElement from '../BuilderElement';
 
-const clientTags: string[] = ['form', 'input', 'textarea', 'button'];
-
-type BuilderElementProps = {
-    structure: ELType;
-};
+const CLIENT_TAGS: string[] = ['form', 'input', 'textarea', 'button'];
 
 export default async function BuilderElement({ structure }: BuilderElementProps) {
-    console.log('BuilderElement:', { structure });
-    if (structure.actions?.length || clientTags.includes(structure.tag) || structure.tag.indexOf('©') >= 0) {
+    //console.log('BuilderElement:', { structure });
+    if (structure.actions?.length || CLIENT_TAGS.includes(structure.tag) || structure.tag.indexOf(SIC) >= 0) {
         return <ClientBuilderElement structure={structure} />;
     }
     const { tag, className, children, ...otherProps } = structure;
@@ -23,6 +20,6 @@ export default async function BuilderElement({ structure }: BuilderElementProps)
     }
 
     return <Component {...otherProps} className={className}>
-        {Array.isArray(children) ? children.map((item, i) => <BuilderElement key={getKeyFromStructure(item, i)} structure={item} />) : `${children}`}
+        {Array.isArray(children) ? children.map((item, i) => <BuilderElement key={getKeyFromStructure(item, i)} structure={item} />) : children}
     </Component>;
 }
